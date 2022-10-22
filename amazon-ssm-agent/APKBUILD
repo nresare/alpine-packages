@@ -1,0 +1,38 @@
+# Contributor:
+# Maintainer: Noa Resare <noa@resare.com>
+pkgname=amazon-ssm-agent
+pkgver=3.1.1856.0
+pkgrel=0
+pkgdesc="The Amazon EC2 Simple Systems Manager (SSM) Agent"
+url="https://github.com/aws/amazon-ssm-agent"
+arch="all"
+license="Apache-2.0"
+depends=""
+makedepends="go bash"
+checkdepends=""
+install="$pkgname.pre-install $pkgname.post-install"
+subpackages="$pkgname-dev"
+source="$pkgname-$pkgver.tar.gz::https://github.com/aws/amazon-ssm-agent/archive/refs/tags/$pkgver.tar.gz"
+builddir="$srcdir/$pkgname-$pkgver"
+
+build() {
+        make
+}
+
+check() {
+	go test ./...
+}
+
+package() {
+	# Replace with proper package command(s)
+	:
+
+	install -m755 -D "$srcdir"/$pkgname.initd \
+		"$pkgdir"/etc/init.d/$pkgname
+	install -m644 -D "$srcdir"/$pkgname.confd \
+		"$pkgdir"/etc/conf.d/$pkgname
+}
+
+sha512sums="
+21d08e92e8c28a8b323c540bb788b674920ba15dbb11d5863df3991d9750ceae6e1d6ca559bad864619ae567419ed90edccca37ceca6c6b092e0d2df96281ee8  amazon-ssm-agent-3.1.1856.0.tar.gz
+"
